@@ -39,9 +39,3 @@ expert_propositions_matrices = [[[1.0, 4.0, 8.0],
                                 [0.25, 1/6, 1.0]]
                                 ]
 
-# for m in expert_propositions_matrices:
-#     for i in range(3):
-#         for j in range(i, 3):
-#             if m[i][j] != 1/m[j][i]:
-#                 print(i, j)
-#                 print(m[i][j], 1/m[j][i])

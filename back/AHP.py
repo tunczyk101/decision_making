@@ -1,8 +1,7 @@
 from random import shuffle
-import numpy as np
-from numpy.linalg import eig
 from .expert_data import expert_propositions_matrices, expert_criteria_matrix
 from .processor import calculate_weights
+
 
 def is_float(element):
     if element is None:
@@ -75,7 +74,7 @@ class AHP:
 
         for M in self.propositions_matrices:
             complete_principal_diagonal(M)
-            print_matrix(M)
+            # print_matrix(M)
 
     def ask_criteria_questions(self):
         questions = self.generate_criteria_questions()
@@ -90,7 +89,7 @@ class AHP:
             self.criteria_matrix[q[1]][q[0]] = 1 / c
 
         complete_principal_diagonal(self.criteria_matrix)
-        print_matrix(self.criteria_matrix)
+        # print_matrix(self.criteria_matrix)
 
     def EVM_ranking(self, M):
         return calculate_weights(M)[1]
