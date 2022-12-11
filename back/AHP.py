@@ -93,7 +93,11 @@ class AHP:
         print_matrix(self.criteria_matrix)
 
     def EVM_ranking(self, M):
-        return calculate_weights(M)
+        return calculate_weights(M)[1]
+
+    def SAATY_index(self, M):
+        n = len(M)
+        return (calculate_weights(M)[0] - n) / (n - 1)
 
     def make_criteria_ranking(self):
         self.criteria_ranking = self.EVM_ranking(self.criteria_matrix)

@@ -3,12 +3,12 @@ import numpy as np
 
 def calculate_weights(matrix: list[list[float]]) -> list[float]:
     mat = np.array(matrix)
-    _, vector = rayleigh_quotient_iteration(mat)
+    u, vector = rayleigh_quotient_iteration(mat)
     if np.min(vector) < 0:
         if np.max(vector) > 0:
             raise ValueError("cannot compute matrix")
         vector *= -1
-    return list(vector / np.sum(vector))
+    return u, list(vector / np.sum(vector))
 
 
 def rayleigh_quotient_iteration(matrix: np.ndarray, threshold=1e-7, max_iterations=1000) -> (float, np.ndarray):
