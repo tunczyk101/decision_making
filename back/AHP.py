@@ -1,4 +1,7 @@
 from random import shuffle
+import numpy as np
+from numpy.linalg import eig
+from .expert_data import expert_propositions_matrices, expert_criteria_matrix
 
 
 def is_float(element):
@@ -22,6 +25,9 @@ def complete_principal_diagonal(M):
 
 
 class AHP:
+    criteria_ranking = None
+    propositions_rankings = []
+    final_ranking = []
 
     def __init__(self, criteria, propositions):
         self.criteria = criteria
@@ -65,12 +71,11 @@ class AHP:
                 c = input("Podaj poprawna wart: ")
             c = float(c)
             self.propositions_matrices[q[0]][q[1][0]][q[1][1]] = c
-            self.propositions_matrices[q[0]][q[1][1]][q[1][0]] = 1/c
+            self.propositions_matrices[q[0]][q[1][1]][q[1][0]] = 1 / c
 
         for M in self.propositions_matrices:
             complete_principal_diagonal(M)
             print_matrix(M)
-
 
     def ask_criteria_questions(self):
         questions = self.generate_criteria_questions()
@@ -86,3 +91,45 @@ class AHP:
 
         complete_principal_diagonal(self.criteria_matrix)
         print_matrix(self.criteria_matrix)
+
+    def EVM_ranking(self, M):
+        return eig(np.array(M))[0]
+
+    def make_criteria_ranking(self):
+        self.criteria_ranking = self.EVM_ranking(self.criteria_matrix)
+
+    def make_propositions_criteria_rankings(self):
+        for c in self.propositions_matrices:
+            self.propositions_rankings.append(self.EVM_ranking(c))
+
+    def count_final_weight(self, i):
+        result = 0
+        for j in range(len(self.criteria)):
+            result += self.criteria_ranking[j] * self.propositions_rankings[j][i]
+
+        return result
+
+    def make_final_ranking(self):
+        for i in range(len(self.propositions)):
+            self.final_ranking.append((i, self.count_final_weight(i)))
+        self.final_ranking.sort(reverse=True, key=lambda x: x[1])
+
+    def print_final_ranking(self):
+        for i, w in self.final_ranking:
+            print(self.propositions[i])
+
+    def start(self):
+        c = input("if you want to trust our expert type x or type anything else and then type your preferences> ")
+        if c != "x":
+            self.ask_questions()
+
+            self.ask_criteria_questions()
+        else:
+            self.criteria_matrix = expert_criteria_matrix
+            self.propositions_matrices = expert_propositions_matrices
+
+        self.make_criteria_ranking()
+        self.make_propositions_criteria_rankings()
+
+        self.make_final_ranking()
+        self.print_final_ranking()
