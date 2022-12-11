@@ -3,7 +3,7 @@ import numpy as np
 
 def calculate_weights(matrix: list[list[float]]) -> list[float]:
     mat = np.array(matrix)
-    vector = rayleigh_quotient_iteration(mat)
+    _, vector = rayleigh_quotient_iteration(mat)
     if np.min(vector) < 0:
         if np.max(vector) > 0:
             raise ValueError("cannot compute matrix")
