@@ -34,7 +34,9 @@ class AHP:
         l_c = len(criteria)
         self.criteria_matrix = [[None for _ in range(l_c)] for _ in range(l_c)]
         l_p = len(propositions)
-        self.propositions_matrices = [[[None for _ in range(l_p)] for _ in range(l_p)] for _ in range(l_c)]
+        self.propositions_matrices = [
+            [[None for _ in range(l_p)] for _ in range(l_p)] for _ in range(l_c)
+        ]
 
     def generate_questions(self):
         questions = []
@@ -63,7 +65,10 @@ class AHP:
         questions = self.generate_questions()
 
         for q in questions:
-            print("Porownaj:(1) ", self.propositions[q[1][0]] + " oraz (2) " + self.propositions[q[1][1]])
+            print(
+                "Porownaj:(1) ",
+                self.propositions[q[1][0]] + " oraz (2) " + self.propositions[q[1][1]],
+            )
             print(" w kategorii " + self.criteria[q[0]] + "(1):(2)")
             c = input()
             while not is_float(c):
@@ -80,7 +85,10 @@ class AHP:
         questions = self.generate_criteria_questions()
 
         for q in questions:
-            print("Porownaj kategorie:(1) ", self.criteria[q[0]] + " oraz (2) " + self.criteria[q[1]])
+            print(
+                "Porownaj kategorie:(1) ",
+                self.criteria[q[0]] + " oraz (2) " + self.criteria[q[1]],
+            )
             c = input("(1):(2)> ")
             while not is_float(c):
                 c = input("Podaj poprawna wart: ")
@@ -122,7 +130,9 @@ class AHP:
             print(self.propositions[i])
 
     def start(self):
-        c = input("if you want to trust our expert type x or type anything else and then type your preferences> ")
+        c = input(
+            "if you want to trust our expert type x or type anything else and then type your preferences> "
+        )
         if c != "x":
             self.ask_questions()
 

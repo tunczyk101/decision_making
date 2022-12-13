@@ -46,17 +46,18 @@ def gen_questions_file():
         if line == "":
             break
         propositions.append(line)
-    questions_file = ask_path("wprowadź ścieżkę do pliku w ktorym zapisac pytania", questions_file)
+    questions_file = ask_path(
+        "wprowadź ścieżkę do pliku w ktorym zapisac pytania", questions_file
+    )
     with open(questions_file, "w") as f:
-        json.dump({
-            "criteria": criteria,
-            "propositions": propositions
-        }, f)
+        json.dump({"criteria": criteria, "propositions": propositions}, f)
 
 
 def ask_questions_customer():
     global questions_file, criteria_ranks_file
-    questions_file = ask_path("prosze podac scierzke do pliku z pytaniami", questions_file)
+    questions_file = ask_path(
+        "prosze podac scierzke do pliku z pytaniami", questions_file
+    )
     with open(questions_file, "r") as f:
         data = json.load(f)
     criteria = data["criteria"]
@@ -64,21 +65,32 @@ def ask_questions_customer():
     ahp = AHP(criteria, propositions)
     ahp.ask_criteria_questions()
 
-    criteria_ranks_file = ask_path("wprowadz sciezke do pliku w ktorym zapisac wynik", criteria_ranks_file)
+    criteria_ranks_file = ask_path(
+        "wprowadz sciezke do pliku w ktorym zapisac wynik", criteria_ranks_file
+    )
     with open(criteria_ranks_file, "w") as f:
-        json.dump({
-            "criteria": criteria,
-            "propositions": propositions,
-            "criteria_matrix": ahp.criteria_matrix
-        }, f)
+        json.dump(
+            {
+                "criteria": criteria,
+                "propositions": propositions,
+                "criteria_matrix": ahp.criteria_matrix,
+            },
+            f,
+        )
 
 
 def generate_ranking():
     global questions_file, criteria_ranks_file, expert_responses_directory
-    questions_file = ask_path("prosze podac sciezke do pliku z pytaniami", questions_file)
-    criteria_ranks_file = ask_path("prosze podac sciezke do pliku z hierarchia kategorii", criteria_ranks_file)
-    expert_responses_directory = ask_path("prosze podac sciezke do katalogu z odpowiedziami expertow",
-                                          expert_responses_directory)
+    questions_file = ask_path(
+        "prosze podac sciezke do pliku z pytaniami", questions_file
+    )
+    criteria_ranks_file = ask_path(
+        "prosze podac sciezke do pliku z hierarchia kategorii", criteria_ranks_file
+    )
+    expert_responses_directory = ask_path(
+        "prosze podac sciezke do katalogu z odpowiedziami expertow",
+        expert_responses_directory,
+    )
     with open(questions_file, "r") as f:
         data = json.load(f)
     criteria = data["criteria"]
@@ -97,7 +109,8 @@ def generate_ranking():
             data = json.load(f)
         if criteria != data["criteria"] or propositions != data["propositions"]:
             print(
-                f"plik z odpowiedziami {file} zostal wygenerowany z innymi parametrami niz podane, zostanie zignorowany")
+                f"plik z odpowiedziami {file} zostal wygenerowany z innymi parametrami niz podane, zostanie zignorowany"
+            )
             continue
         ahp.propositions_matrices = data["matrix"]
         ahp.propositions_rankings = []
@@ -107,14 +120,18 @@ def generate_ranking():
         print("nie znaleziono plikow z odpowiedziami expertow")
         return
     ahp.propositions_rankings = [
-        [geometric_mean([response[i][j] for response in expert_responses])
-            for j in range(len(expert_responses[0][0]))]
-                                 for i in range(len(expert_responses[0]))]
+        [
+            geometric_mean([response[i][j] for response in expert_responses])
+            for j in range(len(expert_responses[0][0]))
+        ]
+        for i in range(len(expert_responses[0]))
+    ]
     ahp.make_final_ranking()
     print("ostateczny ranking:")
     print("=" * 16)
     ahp.print_final_ranking()
     print("=" * 16)
+
 
 while True:
     print("Prosze wybrac operacje do wykonania")
