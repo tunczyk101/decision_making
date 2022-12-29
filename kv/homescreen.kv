@@ -1,0 +1,13 @@
+<HomeScreen>:
+    FloatLayout:
+        MDTopAppBar:
+            title: "Ice-cream experts"
+            # right_action_items: [['book-plus-outline', lambda x: app.change_screen("add_expertise_screen")]]
+            md_bg_color: app.theme_cls.primary_light
+            pos_hint: {"top": 1, "left": 1}
+            size_hint: 1, .1
+        MDFloatingActionButton:
+            # on_hint_animation: True
+            icon: 'book-plus-outline'
+            pos_hint: {"center_x": .5, "center_y": .5}
+            on_release: app.change_screen("add_expertise_screen")

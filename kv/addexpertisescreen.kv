@@ -1,0 +1,28 @@
+<AddExpertiseScreen>:
+    FloatLayout:
+        MDTopAppBar:
+            title: "Compare"
+            md_bg_color: app.theme_cls.primary_light
+            left_action_items: [['keyboard-backspace', lambda x: app.change_screen("home_screen", "None")]]
+            pos_hint: {"top": 1, "left": 1}
+            size_hint: 1, .1
+
+
+        MDSlider
+            id: slider
+            color: "blue"
+            track_color_active: "pink"
+            hint: False
+            min: -8
+            max: 8
+            step: 1
+            value: 0
+            on_touch_up: app.root.ids.add_expertise_screen.get_new_left_right_values(slider.value)
+            pos_hint: {"center_x": 0.5, "center_y": 0.5}
+
+
+        MDLabel:
+            id: compare_label
+            text: "1 : 1"
+            pos_hint: {"center_x": 0.5, "center_y": 0.6}
+            halign: "center"

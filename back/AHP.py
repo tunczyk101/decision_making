@@ -27,6 +27,7 @@ class AHP:
     criteria_ranking = None
     propositions_rankings = []
     final_ranking = []
+    expert_questions = []
 
     def __init__(self, criteria, propositions):
         self.criteria = criteria
@@ -38,7 +39,7 @@ class AHP:
             [[None for _ in range(l_p)] for _ in range(l_p)] for _ in range(l_c)
         ]
 
-    def generate_questions(self):
+    def generate_expert_questions(self):
         questions = []
         for c in range(len(self.criteria)):
             for i in range(len(self.propositions)):
@@ -48,7 +49,7 @@ class AHP:
                     questions.append((c, p))
 
         shuffle(questions)
-        return questions
+        self.expert_questions = questions
 
     def generate_criteria_questions(self):
         questions = []
@@ -62,7 +63,8 @@ class AHP:
         return questions
 
     def ask_questions(self):
-        questions = self.generate_questions()
+        self.generate_expert_questions()
+        questions = self.expert_questions
 
         for q in questions:
             print(
