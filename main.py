@@ -3,7 +3,7 @@ from back.AHP import AHP
 from kivymd.app import MDApp
 from kivy.core.window import Window
 from expert.main import load_questions, save_expert
-from back.functions import without_whitespace
+from back.functions import without_whitespace, get_image
 
 
 Window.size = (375, 750)
@@ -17,17 +17,22 @@ class AddExpertiseScreen(Screen):
     AHP = load_questions()
 
     def reset_values(self):
-        text = self.AHP.get_next_expert_question()
-        # print(text)
-        if text is True:
-            # print("wtf")
-            self.ids.question_label.text = "Time to save questions"
+
+        if self.AHP.check_next_expert_question():
+            # self.ids.question_label.text = "Time to save questions"
             self.ids.next_button.disabled = True
             self.ids.next_button.opacity = 0
             self.ids.save_button.opacity = 1
             self.ids.save_button.disabled = False
-            return
-        self.ids.question_label.text = text
+            # return
+
+        print(len(self.AHP.expert_questions))
+        print(self.AHP.curr_question_nr)
+        self.ids.question_label.text = "Kategoria:\n" + self.AHP.get_category()
+        self.ids.left_label.text = self.AHP.get_left()
+        self.ids.left_photo.source = get_image(self.AHP.get_left())
+        self.ids.right_label.text = self.AHP.get_right()
+        self.ids.right_photo.source = get_image(self.AHP.get_right())
         self.left = 1
         self.right = 1
         s = str(self.left) + " : " + str(self.right)

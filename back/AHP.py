@@ -117,6 +117,15 @@ class AHP:
                + " and\n(2) " + self.propositions[self.expert_questions[self.curr_question_nr][1][1]] \
                + "\n in category: " + self.criteria[self.expert_questions[self.curr_question_nr][0]] + "\n(1):(2)"
 
+    def check_next_expert_question(self):
+        self.curr_question_nr += 1
+        if self.curr_question_nr + 1 >= len(self.expert_questions):
+            return True
+        return False
+
+    def get_category(self):
+        return self.criteria[self.expert_questions[self.curr_question_nr][0]]
+
     def save_expert_value(self, c):
         c = float(c)
         q = self.expert_questions[self.curr_question_nr]
@@ -126,6 +135,12 @@ class AHP:
     def fill_expert_diagonals(self):
         for M in self.propositions_matrices:
             complete_principal_diagonal(M)
+
+    def get_left(self):
+        return self.propositions[self.expert_questions[self.curr_question_nr][1][0]]
+
+    def get_right(self):
+        return self.propositions[self.expert_questions[self.curr_question_nr][1][1]]
 
     def EVM_ranking(self, M):
         return calculate_weights(M)[1]
