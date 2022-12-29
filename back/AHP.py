@@ -64,27 +64,6 @@ class AHP:
         shuffle(questions)
         return questions
 
-    def ask_questions(self):
-        self.generate_expert_questions()
-        questions = self.expert_questions
-
-        for q in questions:
-            print(
-                "Porownaj:(1) ",
-                self.propositions[q[1][0]] + " oraz (2) " + self.propositions[q[1][1]],
-            )
-            print(" w kategorii " + self.criteria[q[0]] + "(1):(2)")
-            c = input()
-            while not is_float(c):
-                c = input("Podaj poprawna wart: ")
-            c = float(c)
-            self.propositions_matrices[q[0]][q[1][0]][q[1][1]] = c
-            self.propositions_matrices[q[0]][q[1][1]][q[1][0]] = 1 / c
-
-        for M in self.propositions_matrices:
-            complete_principal_diagonal(M)
-            # print_matrix(M)
-
     def ask_criteria_questions(self):
         questions = self.generate_criteria_questions()
 
@@ -102,20 +81,6 @@ class AHP:
 
         complete_principal_diagonal(self.criteria_matrix)
         # print_matrix(self.criteria_matrix)
-
-    def get_next_expert_question(self):
-        self.curr_question_nr += 1
-        # if self.curr_question_nr==0:
-        #     return False
-        print(self.curr_question_nr, len(self.expert_questions))
-
-        if self.curr_question_nr >= len(self.expert_questions):
-            print(self.curr_question_nr > len(self.expert_questions))
-            return True
-
-        return "Compare: \n (1) - " + self.propositions[self.expert_questions[self.curr_question_nr][1][0]] \
-               + " and\n(2) " + self.propositions[self.expert_questions[self.curr_question_nr][1][1]] \
-               + "\n in category: " + self.criteria[self.expert_questions[self.curr_question_nr][0]] + "\n(1):(2)"
 
     def check_next_expert_question(self):
         self.curr_question_nr += 1

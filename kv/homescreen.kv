@@ -6,8 +6,11 @@
             md_bg_color: app.theme_cls.primary_light
             pos_hint: {"top": 1, "left": 1}
             size_hint: 1, .1
-        MDFloatingActionButton:
+
+        MDRoundFlatIconButton:
             # on_hint_animation: True
             icon: 'book-plus-outline'
             pos_hint: {"center_x": .5, "center_y": .5}
             on_release: app.change_screen("add_expertise_screen")
+            text: "add expertise"
+
