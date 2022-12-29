@@ -14,7 +14,7 @@ def load_questions():
 
 def save_expert(ahp, expert_name):
     # output_path = input("prosze podac sciezke gdzie zapisac wyniki>")
-    output_path = "expert_" + expert_name + ".json"
+    output_path = "example_data/expert_responses/expert_" + expert_name + ".json"
 
     with open(output_path, "w") as f:
         json.dump(

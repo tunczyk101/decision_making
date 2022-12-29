@@ -18,16 +18,20 @@ class AddExpertiseScreen(Screen):
 
     def reset_values(self):
         text = self.AHP.get_next_expert_question()
-        if not text:
+        # print(text)
+        if text is True:
+            # print("wtf")
             self.ids.question_label.text = "Time to save questions"
             self.ids.next_button.disabled = True
             self.ids.next_button.opacity = 0
             self.ids.save_button.opacity = 1
+            self.ids.save_button.disabled = False
             return
         self.ids.question_label.text = text
         self.left = 1
         self.right = 1
         s = str(self.left) + " : " + str(self.right)
+        self.ids.slider.value = 0
         self.ids.compare_label.text = s
 
     def get_new_left_right_values(self, value):
@@ -42,7 +46,8 @@ class AddExpertiseScreen(Screen):
 
     def save(self, expert_name, label, function):
         if without_whitespace(expert_name):
-            print("save")
+            # print("save")
+            self.AHP.fill_expert_diagonals()
             save_expert(self.AHP, expert_name)
             function("home_screen")
         else:
@@ -78,9 +83,3 @@ class MainApp(MDApp):
 
 
 MainApp().run()
-
-# # criteria = ["jakosc lodow", "cena", "jakosc sorbetow"]
-#
-# if __name__ == "__main__":
-#     ahp = AHP(criteria, propositions)
-#     ahp.start()
