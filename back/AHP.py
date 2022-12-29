@@ -28,6 +28,7 @@ class AHP:
     propositions_rankings = []
     final_ranking = []
     expert_questions = []
+    curr_question_nr = -1
 
     def __init__(self, criteria, propositions):
         self.criteria = criteria
@@ -40,6 +41,7 @@ class AHP:
         ]
 
     def generate_expert_questions(self):
+        self.curr_question_nr = -1
         questions = []
         for c in range(len(self.criteria)):
             for i in range(len(self.propositions)):
@@ -100,6 +102,24 @@ class AHP:
 
         complete_principal_diagonal(self.criteria_matrix)
         # print_matrix(self.criteria_matrix)
+
+    def get_next_expert_question(self):
+        self.curr_question_nr += 1
+        # if self.curr_question_nr==0:
+        #     return False
+
+        if self.curr_question_nr > len(self.expert_questions):
+            return False
+
+        return "Compare: (1) - " + self.propositions[self.expert_questions[self.curr_question_nr][1][0]] \
+               + " and (2) " + self.propositions[self.expert_questions[self.curr_question_nr][1][1]] \
+               + " in category " + self.criteria[self.expert_questions[self.curr_question_nr][0]] + "(1):(2)"
+
+    def save_expert_value(self, c):
+        c = float(c)
+        q = self.expert_questions[self.curr_question_nr]
+        self.propositions_matrices[q[0]][q[1][0]][q[1][1]] = c
+        self.propositions_matrices[q[0]][q[1][1]][q[1][0]] = 1 / c
 
     def EVM_ranking(self, M):
         return calculate_weights(M)[1]

@@ -1,0 +1,30 @@
+<SaveScreen>:
+    FloatLayout:
+        MDTopAppBar:
+            title: "Saving mode"
+            # right_action_items: [['book-plus-outline', lambda x: app.change_screen("add_expertise_screen")]]
+            md_bg_color: app.theme_cls.primary_light
+            pos_hint: {"top": 1, "left": 1}
+            size_hint: 1, .1
+
+
+        MDTextField:
+            id: expert_id
+            hint_text: "Expert name"
+            mode: "round"
+            max_text_length: 15
+            pos_hint: {"center_x": .5, "center_y": .5}
+
+
+        MDFloatingActionButton:
+            # on_hint_animation: True
+            icon: 'content-save'
+            pos_hint: {"center_x": .5, "center_y": .4}
+            on_release: app.root.ids.add_expertise_screen.save(expert_id.text, red_label, lambda x: app.change_screen(x))
+
+        MDLabel:
+            id: red_label
+            text: ""
+            pos_hint: {"center_x": 0.5, "center_y": 0.45}
+            halign: "center"
+            theme_text_color: "Error"
