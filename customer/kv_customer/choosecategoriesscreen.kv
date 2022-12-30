@@ -4,6 +4,8 @@
         icon: root.icon
 
     RightCheckbox:
+        id: checkbox
+        on_active: app.check(self.name, self.active)
 
 <ChooseCategoriesScreen>:
     FloatLayout:
@@ -15,7 +17,24 @@
             size_hint: 1, .1
         BoxLayout:
             size_hint_y: 0.9
-            ScrollView:
+            orientation: 'vertical'
+            MDLabel:
+                size_hint_y: 0.05
+                id: red_label
+                text: ""
+                pos_hint: {"center_x": 0.5, "center_y": 0.5}
+                halign: "center"
+                theme_text_color: "Error"
 
+            MDRoundFlatIconButton:
+                icon: 'ice-cream'
+                size_hint_y: 0.05
+                pos_hint: {"center_x": .5, "center_y": .85}
+                on_release: app.save_categories()
+                # app.change_screen("choosecategories_screen", "up", "pop")
+                text: "Save selected categories"
+
+            ScrollView:
+                size_hint_y: 0.85
                 MDList:
                     id: scroll

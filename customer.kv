@@ -1,5 +1,7 @@
 #:include customer/kv_customer/startscreen.kv
 #:include customer/kv_customer/choosecategoriesscreen.kv
+#:include customer/kv_customer/rankcategoriesscreen.kv
+#:include customer/kv_customer/resultscreen.kv
 
 Screen:
     FloatLayout:
@@ -16,3 +18,11 @@ Screen:
             ChooseCategoriesScreen:
                 id: choosecategories_screen
                 name: "choosecategories_screen"
+
+            RankCategoriesScreen:
+                id: rankcategories_screen
+                name: "rankcategories_screen"
+
+            ResultScreen:
+                id: result_screen
+                name: "result_screen"

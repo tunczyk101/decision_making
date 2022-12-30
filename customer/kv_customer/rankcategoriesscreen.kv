@@ -1,0 +1,71 @@
+<RankCategoriesScreen>:
+    FloatLayout:
+        MDTopAppBar:
+            title: "Compare"
+            md_bg_color: app.theme_cls.primary_light
+            right_action_items: [['close', lambda x: exit(0)]]
+            pos_hint: {"top": 1, "left": 1}
+            size_hint: 1, .1
+
+        MDLabel:
+            id: left_label
+            pos_hint: {"center_x": 0.25, "center_y": 0.5}
+            halign: "center"
+            text: "left"
+            size_hint_x: .4
+            theme_text_color: "Custom"
+            text_color: 0, 0, 1, 1
+
+        MDLabel:
+            id: right_label
+            pos_hint: {"center_x": 0.75, "center_y": 0.5}
+            halign: "center"
+            text: "right"
+            size_hint_x: .4
+            theme_text_color: "Custom"
+            text_color: 0, 1, 0, 1
+
+
+        MDLabel:
+            id: question_label
+            pos_hint: {"center_x": 0.5, "center_y": 0.85}
+            halign: "center"
+
+
+
+        MDLabel:
+            id: compare_label
+            text: "1 : 1"
+            pos_hint: {"center_x": 0.5, "center_y": 0.5}
+            halign: "center"
+
+        MDSlider
+            id: slider
+            color: "blue"
+            track_color_active: "green"
+            track_color_inactive: "green"
+            hint: False
+            min: -8
+            max: 8
+            step: 1
+            value: 0
+            on_touch_up: app.root.ids.add_expertise_screen.get_new_left_right_values(slider.value)
+            pos_hint: {"center_x": 0.5, "center_y": 0.4}
+
+
+        MDFlatButton:
+            id: next_button
+            text: "next"
+            on_release: app.root.ids.add_expertise_screen.next()
+            pos_hint: {"center_x": 0.5, "center_y": 0.25}
+            md_bg_color: app.theme_cls.primary_color
+
+        MDFlatButton:
+            md_bg_color: "red"
+            id: save_button
+            disabled: True
+            opacity: 0
+            text: "save"
+            font_size: "22sp"
+            on_release: app.change_screen("save_screen", "None")
+            pos_hint: {"center_x": 0.5, "center_y": 0.25}
