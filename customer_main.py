@@ -6,7 +6,7 @@ from kivymd.uix.selectioncontrol import MDCheckbox
 from kivy.core.window import Window
 from kivymd.uix.list import OneLineAvatarIconListItem
 
-from customer.customer_functions import load
+from customer.customer_functions import load, ranking
 
 Window.size = (375, 750)
 
@@ -93,10 +93,7 @@ class CustomerApp(MDApp):
             self.results()
 
     def results(self):
-        print(self.ahp.criteria_matrix)
-        self.ahp.fill_customer_diagonal()
-        self.ahp.make_criteria_ranking()
-        print(self.ahp.criteria_ranking)
+        ranking(self.ahp)
 
     def check(self, id, value):
         if value:
