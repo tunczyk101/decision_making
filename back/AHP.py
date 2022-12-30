@@ -63,26 +63,17 @@ class AHP:
         print(self.propositions_rankings)
         for j in range(len(self.actual_criteria)):
             print("j= ", j)
-            print(self.propositions_rankings[self.actual_criteria[j]][i])
+            print(self.propositions_rankings[j][i])
             result += self.criteria_ranking[j] * self.propositions_rankings[j][i]
 
         return result
 
     def make_final_ranking(self):
-        for i in self.actual_criteria:
+        for i in range(len(self.actual_criteria)):
             print("i=", i)
             self.final_ranking.append((i, self.count_final_weight(i)))
         self.final_ranking.sort(reverse=True, key=lambda x: x[1])
 
-    def make_ranking_for_customer(self):
-        self.make_criteria_ranking()
-        print(1)
-        self.make_propositions_criteria_rankings()
-        print(1)
-        self.make_final_ranking()
-        print(1)
-        self.print_final_ranking()
-        print(1)
 
     def print_final_ranking(self):
         for i, w in self.final_ranking:

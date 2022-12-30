@@ -1,7 +1,7 @@
 import kivy.uix.screenmanager
 from kivy.properties import StringProperty
 from kivymd.app import MDApp
-from kivymd.uix.list import IRightBodyTouch, OneLineAvatarIconListItem
+from kivymd.uix.list import IRightBodyTouch, OneLineAvatarIconListItem, OneLineIconListItem
 from kivymd.uix.selectioncontrol import MDCheckbox
 from kivy.core.window import Window
 from kivymd.uix.list import OneLineAvatarIconListItem
@@ -10,6 +10,9 @@ from customer.customer_functions import load, ranking
 
 Window.size = (375, 750)
 
+
+class CustomOneLineIconListItem(OneLineIconListItem):
+    icon = StringProperty()
 
 class ListItemWithCheckbox(OneLineAvatarIconListItem):
     icon = StringProperty("android")
@@ -94,6 +97,15 @@ class CustomerApp(MDApp):
 
     def results(self):
         ranking(self.ahp)
+        propositions = self.ahp.propositions
+        self.root.ids.result_screen.ids.rv.data = []
+        for i, w in self.ahp.final_ranking:
+            self.root.ids.result_screen.ids.rv.data.append({
+                "viewclass": "CustomOneLineIconListItem",
+                "icon": "ice-cream",
+                "text": propositions[i],
+                "callback": lambda x: x,
+            })
 
     def check(self, id, value):
         if value:
@@ -116,7 +128,6 @@ class CustomerApp(MDApp):
     def next(self):
         left = self.root.ids.rankcategories_screen.left
         right = self.root.ids.rankcategories_screen.right
-        print(left, right, (left / right))
         self.ahp.save_customer_value((left / right))
         if self.ahp.check_next_customer_question():
             self.root.ids.rankcategories_screen.switch_next_save_buttons()
