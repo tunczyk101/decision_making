@@ -77,7 +77,7 @@ class ExpertApp(MDApp):
         self.theme_cls.theme_style = "Dark"
 
     def change_screen(self, screen_name, direction='down', mode="push"):
-        # Get the screen manager from the kv file.
+        # Get the screen manager from the kv_expert file.
         screen_manager = self.root.ids.screen_manager
 
         if direction == "None":

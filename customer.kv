@@ -1,0 +1,18 @@
+#:include customer/kv_customer/startscreen.kv
+#:include customer/kv_customer/choosecategoriesscreen.kv
+
+Screen:
+    FloatLayout:
+        orientation: 'vertical'
+        ScreenManager :
+            id: screen_manager
+            size_hint: 1, 1
+            pos_hint: {"top": 1, "left": 1}
+
+            StartScreen:
+                id: start_screen
+                name: "start_screen"
+
+            ChooseCategoriesScreen:
+                id: choosecategories_screen
+                name: "choosecategories_screen"

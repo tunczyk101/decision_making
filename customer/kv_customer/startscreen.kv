@@ -1,0 +1,24 @@
+<StartScreen>:
+    FloatLayout:
+        MDTopAppBar:
+            title: "Hello ice-crem fan!"
+            right_action_items: [['close', lambda x: exit(0)]]
+            md_bg_color: app.theme_cls.primary_light
+            pos_hint: {"top": 1, "left": 1}
+            size_hint: 1, .1
+
+        Image:
+            id: main_photo
+            size_hint_x: .5
+            size_hint_y: .25
+            pos_hint: {"center_x": 0.5, "center_y": 0.75}
+            radius: [36, 36, 36, 36, ]
+            source: "img/customer_logo.jpg"
+
+
+        MDRoundFlatIconButton:
+            # on_hint_animation: True
+            icon: 'ice-cream'
+            pos_hint: {"center_x": .5, "center_y": .5}
+            on_release: app.change_screen("choosecategories_screen", "up", "pop")
+            text: "Start!"
