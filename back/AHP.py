@@ -61,15 +61,18 @@ class AHP:
         questions = []
         for i in range(len(self.actual_criteria)):
             for j in range(i + 1, len(self.actual_criteria)):
-                p = [self.actual_criteria[i], self.actual_criteria[j]]
+                p = [(self.actual_criteria[i], i), (self.actual_criteria[j], j)]
                 shuffle(p)
                 questions.append(p)
-
         shuffle(questions)
         self.customer_questions = questions
+        l_c = len(self.actual_criteria)
+        self.criteria_matrix = [[None for _ in range(l_c)] for _ in range(l_c)]
+        print(len(self.criteria_matrix), len(self.criteria_matrix[0]))
 
     def ask_criteria_questions(self):
-        questions = self.generate_customer_questions()
+        self.generate_customer_questions()
+        questions = self.customer_questions
 
         for q in questions:
             print(
@@ -92,24 +95,46 @@ class AHP:
             return True
         return False
 
+    def check_next_customer_question(self):
+        self.curr_criteria_nr += 1
+        if self.curr_criteria_nr + 1 >= len(self.customer_questions):
+            return True
+        return False
+
     def get_category(self):
         return self.criteria[self.expert_questions[self.curr_question_nr][0]]
 
     def save_expert_value(self, c):
         c = float(c)
-        q = self.expert_questions[self.curr_question_nr]
+        q = self.expert_questions[self.curr_criteria_nr]
         self.propositions_matrices[q[0]][q[1][0]][q[1][1]] = c
         self.propositions_matrices[q[0]][q[1][1]][q[1][0]] = 1 / c
+
+    def save_customer_value(self, c):
+        c = float(c)
+        q = self.customer_questions[self.curr_criteria_nr]
+        self.criteria_matrix[q[0][1]][q[1][1]] = c
+        self.criteria_matrix[q[1][1]][q[0][1]] = 1 / c
+
 
     def fill_expert_diagonals(self):
         for M in self.propositions_matrices:
             complete_principal_diagonal(M)
+
+    def fill_customer_diagonal(self):
+        complete_principal_diagonal(self.criteria_matrix)
 
     def get_left(self):
         return self.propositions[self.expert_questions[self.curr_question_nr][1][0]]
 
     def get_right(self):
         return self.propositions[self.expert_questions[self.curr_question_nr][1][1]]
+
+    def get_left_cat(self):
+        return self.criteria[self.customer_questions[self.curr_criteria_nr][0][0]]
+
+    def get_right_cat(self):
+        return self.criteria[self.customer_questions[self.curr_criteria_nr][1][0]]
 
     def EVM_ranking(self, M):
         return calculate_weights(M)[1]
@@ -122,12 +147,13 @@ class AHP:
         self.criteria_ranking = self.EVM_ranking(self.criteria_matrix)
 
     def make_propositions_criteria_rankings(self):
-        for c in self.propositions_matrices:
-            self.propositions_rankings.append(self.EVM_ranking(c))
+        for i in range(len(self.propositions_matrices)):
+            if i in self.actual_criteria:
+                self.propositions_rankings.append(self.EVM_ranking(self.propositions_matrices[i]))
 
     def count_final_weight(self, i):
         result = 0
-        for j in range(len(self.criteria)):
+        for j in range(len(self.actual_criteria)):
             result += self.criteria_ranking[j] * self.propositions_rankings[j][i]
 
         return result

@@ -29,7 +29,7 @@ class AddExpertiseScreen(kivy.uix.screenmanager.Screen):
             self.ids.save_button.opacity = 1
             self.ids.save_button.disabled = False
 
-        self.ids.question_label.text = "Kategoria:\n" + self.AHP.get_category()
+        self.ids.question_label.text = "Category:\n" + self.AHP.get_category()
         self.ids.left_label.text = self.AHP.get_left()
         self.ids.left_photo.source = get_image(self.AHP.get_left())
         self.ids.right_label.text = self.AHP.get_right()

@@ -31,13 +31,36 @@ class ResultScreen(kivy.uix.screenmanager.Screen):
 
 
 class RankCategoriesScreen(kivy.uix.screenmanager.Screen):
-    pass
+    left = right = 1
+
+    def get_new_left_right_values(self, value):
+        self.left = - min(-1, value - 1)
+        self.right = max(1, value + 1)
+        s = str(self.left) + " : " + str(self.right)
+        self.ids.compare_label.text = s
+
+    def switch_next_save_buttons(self):
+        value = self.ids.next_button.disabled
+        opacity = self.ids.next_button.opacity
+        self.ids.next_button.disabled = not value
+        self.ids.next_button.opacity = abs(1 - self.ids.next_button.opacity)
+        self.ids.save_button.opacity = opacity
+        self.ids.save_button.disabled = value
+
+    def reset_values(self, ahp):
+        self.ids.question_label.text = "Compare categories:\n"
+        self.ids.left_label.text = ahp.get_left_cat()
+        self.ids.right_label.text = ahp.get_right_cat()
+        self.left = self.right = 1
+        s = str(self.left) + " : " + str(self.right)
+        self.ids.slider.value = 0
+        self.ids.compare_label.text = s
 
 
 class ChooseCategoriesScreen(kivy.uix.screenmanager.Screen):
     ahp = None
 
-    def add_items_to_list(self, ahp, func):
+    def add_items_to_list(self, ahp):
         self.ahp = ahp
 
         for i in range(len(ahp.criteria)):
@@ -54,7 +77,7 @@ class CustomerApp(MDApp):
         self.theme_cls.primary_hue = "500"
         self.theme_cls.theme_style = "Dark"
         self.ahp = load()
-        self.root.ids.choosecategories_screen.add_items_to_list(self.ahp, self.check)
+        self.root.ids.choosecategories_screen.add_items_to_list(self.ahp)
 
     def change_screen(self, screen_name, direction='down', mode="push"):
         screen_manager = self.root.ids.screen_manager
@@ -66,8 +89,14 @@ class CustomerApp(MDApp):
             screen_manager.transition = kivy.uix.screenmanager.CardTransition(direction=direction, mode=mode)
             screen_manager.current = screen_name
 
-        if screen_name == "add_expertise_screen":
-            self.root.ids.add_expertise_screen.reset_values()
+        if screen_name == "result_screen":
+            self.results()
+
+    def results(self):
+        print(self.ahp.criteria_matrix)
+        self.ahp.fill_customer_diagonal()
+        self.ahp.make_criteria_ranking()
+        print(self.ahp.criteria_ranking)
 
     def check(self, id, value):
         if value:
@@ -76,17 +105,25 @@ class CustomerApp(MDApp):
             self.ahp.actual_criteria.remove(id)
 
     def save_categories(self):
+
         if len(self.ahp.actual_criteria) < 1:
             self.root.ids.choosecategories_screen.ids.red_label.text = "You have to select something"
             return
+        self.ahp.generate_customer_questions()
         if len(self.ahp.actual_criteria) == 1:
             self.change_screen("result_screen")
         else:
-            self.ask_questions()
+            self.change_screen("rankcategories_screen")
+            self.next()
 
-    def ask_questions(self):
-        self.change_screen("rankcategories_screen")
-
+    def next(self):
+        left = self.root.ids.rankcategories_screen.left
+        right = self.root.ids.rankcategories_screen.right
+        print(left, right, (left / right))
+        self.ahp.save_customer_value((left / right))
+        if self.ahp.check_next_customer_question():
+            self.root.ids.rankcategories_screen.switch_next_save_buttons()
+        self.root.ids.rankcategories_screen.reset_values(self.ahp)
 
 
 CustomerApp().run()

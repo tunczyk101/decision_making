@@ -49,14 +49,14 @@
             max: 8
             step: 1
             value: 0
-            on_touch_up: app.root.ids.add_expertise_screen.get_new_left_right_values(slider.value)
+            on_touch_up: app.root.ids.rankcategories_screen.get_new_left_right_values(slider.value)
             pos_hint: {"center_x": 0.5, "center_y": 0.4}
 
 
         MDFlatButton:
             id: next_button
             text: "next"
-            on_release: app.root.ids.add_expertise_screen.next()
+            on_release: app.next()
             pos_hint: {"center_x": 0.5, "center_y": 0.25}
             md_bg_color: app.theme_cls.primary_color
 
@@ -67,5 +67,5 @@
             opacity: 0
             text: "save"
             font_size: "22sp"
-            on_release: app.change_screen("save_screen", "None")
+            on_release: app.change_screen("result_screen", "None")
             pos_hint: {"center_x": 0.5, "center_y": 0.25}

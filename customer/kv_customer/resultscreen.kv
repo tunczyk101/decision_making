@@ -1,1 +1,25 @@
 <ResultScreen>
+    MDBoxLayout:
+        orientation: 'vertical'
+        spacing: dp(10)
+        padding: dp(20)
+
+        MDTopAppBar:
+            title: 'Results'
+            right_action_items: [['close', lambda x: exit(0)]]
+            md_bg_color: app.theme_cls.primary_light
+            pos_hint: {"top": 1, "left": 1}
+            size_hint: 1, .1
+
+        RecycleView:
+            id: rv
+            key_viewclass: 'viewclass'
+            key_size: 'height'
+
+            RecycleBoxLayout:
+                padding: dp(10)
+                default_size: None, dp(48)
+                default_size_hint: 1, None
+                size_hint_y: None
+                height: self.minimum_height
+                orientation: 'vertical'
