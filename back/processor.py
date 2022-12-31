@@ -21,7 +21,7 @@ def calculate_weights_np(matrix: np.ndarray) -> (float, np.ndarray):
 
 
 def rayleigh_quotient_iteration(
-    matrix: np.ndarray, threshold=1e-7, max_iterations=1000
+        matrix: np.ndarray, threshold=1e-7, max_iterations=1000
 ) -> (float, np.ndarray):
     identity = np.eye(matrix.shape[0])
     b = np.ones(matrix.shape[0]) / matrix.shape[0]
@@ -29,7 +29,14 @@ def rayleigh_quotient_iteration(
     old_u = u + 1000 * threshold
 
     for i in range(max_iterations):
-        temp = np.linalg.solve(matrix - u * identity, b)
+        matrix_prim = matrix - u * identity
+        while True:
+            try:
+                temp = np.linalg.solve(matrix_prim, b)
+                break
+            except np.linalg.LinAlgError:
+                matrix_prim = matrix_prim - u * identity  # remove all 0 eigenvalues
+
         b = temp / np.linalg.norm(temp)
         u = np.dot(b, matrix @ b) / np.dot(b, b)
         if abs(u - old_u) < threshold:
@@ -39,7 +46,7 @@ def rayleigh_quotient_iteration(
 
 
 def power_iteration(
-    matrix: np.ndarray, threshold=1e-7, max_iterations=1000
+        matrix: np.ndarray, threshold=1e-7, max_iterations=1000
 ) -> (float, np.ndarray):
     b = np.random.rand(matrix.shape[0])
     old_b = b + 1000 * threshold
