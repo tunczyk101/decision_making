@@ -11,7 +11,9 @@ def EVM_ranking(M: np.ndarray) -> np.ndarray:
 
 
 def SAATY_index(M: np.ndarray) -> float:
-    n = len(M)
+    n = M.shape[0]
+    if n == 1:
+        return 0
     return (calculate_weights_np(M)[0] - n) / (n - 1)
 
 
