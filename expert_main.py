@@ -40,8 +40,8 @@ class AddExpertiseScreen(kivy.uix.screenmanager.Screen):
         self.ids.compare_label.text = s
 
     def get_new_left_right_values(self, value):
-        self.left = - min(-1, value - 1)
-        self.right = max(1, value + 1)
+        self.left = max(1, value + 1)
+        self.right = - min(-1, value - 1)
         s = str(self.left) + " : " + str(self.right)
         self.ids.compare_label.text = s
 

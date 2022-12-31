@@ -23,7 +23,6 @@ def ranking(ahp: AHP):
     propositions = ahp.propositions
     expert_responses_directory = "example_data/expert_responses"
     expert_responses = []
-    print("val")
 
     for file in iglob(expert_responses_directory + "/*"):
         with open(file, "r") as f:
@@ -37,7 +36,7 @@ def ranking(ahp: AHP):
         ahp.propositions_rankings = []
         ahp.make_propositions_criteria_rankings()
         expert_responses.append(ahp.propositions_rankings)
-    print("files")
+    # print("files")
     if len(expert_responses) == 0:
         print("nie znaleziono plikow z odpowiedziami expertow")
         return
@@ -48,10 +47,13 @@ def ranking(ahp: AHP):
         ]
         for i in range(len(expert_responses[0]))
     ]
-    print("rank geom: ")
+    # print("rank geom: ")
+    print("______")
     ahp.make_criteria_ranking()
+    print("______")
     ahp.make_final_ranking()
-    print("ostateczny ranking:")
-    print("=" * 16)
-    ahp.print_final_ranking()
-    print("=" * 16)
+    print("______")
+    # print("ostateczny ranking:")
+    # print("=" * 16)
+    # ahp.print_final_ranking()
+    # print("=" * 16)

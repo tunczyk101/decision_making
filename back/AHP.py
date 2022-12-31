@@ -51,7 +51,12 @@ class AHP:
         return (calculate_weights(M)[0] - n) / (n - 1)
 
     def make_criteria_ranking(self):
+        if len(self.criteria_matrix) == 1:
+            self.criteria_ranking = [1.0]
+            print("crit:", self.criteria_ranking)
+            return
         self.criteria_ranking = self.EVM_ranking(self.criteria_matrix)
+        print("crit:", self.criteria_ranking)
 
     def make_propositions_criteria_rankings(self):
         for i in range(len(self.actual_criteria)):
@@ -62,17 +67,20 @@ class AHP:
         result = 0
         print(self.propositions_rankings)
         for j in range(len(self.actual_criteria)):
-            print("j= ", j)
-            print(self.propositions_rankings[j][i])
+            # print("j= ", j)
+            # print(self.propositions_rankings[j][i])
             result += self.criteria_ranking[j] * self.propositions_rankings[j][i]
 
         return result
 
     def make_final_ranking(self):
-        for i in range(len(self.actual_criteria)):
-            print("i=", i)
+        for i in range(len(self.propositions)):
+            # print("i=", i)
             self.final_ranking.append((i, self.count_final_weight(i)))
+        print(self.final_ranking)
+        print(self.propositions)
         self.final_ranking.sort(reverse=True, key=lambda x: x[1])
+        print(self.final_ranking)
 
 
     def print_final_ranking(self):
