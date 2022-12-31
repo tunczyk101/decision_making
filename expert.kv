@@ -1,0 +1,20 @@
+#:include expert/kv_expert/homescreen.kv
+#:include expert/kv_expert/addexpertisescreen.kv
+#:include expert/kv_expert/savescreen.kv
+
+Screen:
+    FloatLayout:
+        orientation: 'vertical'
+        ScreenManager :
+            id: screen_manager
+            size_hint: 1, 1
+            pos_hint: {"top": 1, "left": 1}
+            HomeScreen:
+                name: "home_screen"
+                id: home_screen
+            AddExpertiseScreen:
+                name: "add_expertise_screen"
+                id: add_expertise_screen
+            SaveScreen:
+                name: "save_screen"
+                id: save_screen
