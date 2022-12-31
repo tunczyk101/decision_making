@@ -139,6 +139,8 @@ class ExpertApp(MDApp):
 
         if screen_name == "add_expertise_screen":
             self.root.ids.add_expertise_screen.reset_values()
+        if screen_name == "save_screen":
+            print("x")
 
 
 if __name__ == "__main__":
