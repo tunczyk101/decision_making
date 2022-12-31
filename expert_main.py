@@ -122,7 +122,7 @@ class AddExpertiseScreen(kivy.uix.screenmanager.Screen):
             label.text = "Get rid of whitespaces"
 
     def func(self):
-        self.ids.info_label.text = ""
+        return f"SATTY index: {self.pqs.get_max_satty_index()}"
 
 
 class HomeScreen(kivy.uix.screenmanager.Screen):
@@ -153,7 +153,9 @@ class ExpertApp(MDApp):
             self.root.ids.add_expertise_screen.reset_values()
 
         if screen_name == "save_screen":
-            self.root.ids.add_expertise_screen.func()
+            self.root.ids.save_screen.ids.info_label.text = (
+                self.root.ids.add_expertise_screen.func()
+            )
 
 
 if __name__ == "__main__":

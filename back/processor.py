@@ -21,7 +21,7 @@ def calculate_weights_np(matrix: np.ndarray) -> (float, np.ndarray):
 
 
 def rayleigh_quotient_iteration(
-        matrix: np.ndarray, threshold=1e-7, max_iterations=1000
+    matrix: np.ndarray, threshold=1e-7, max_iterations=1000
 ) -> (float, np.ndarray):
     identity = np.eye(matrix.shape[0])
     b = np.ones(matrix.shape[0]) / matrix.shape[0]
@@ -46,7 +46,7 @@ def rayleigh_quotient_iteration(
 
 
 def power_iteration(
-        matrix: np.ndarray, threshold=1e-7, max_iterations=1000
+    matrix: np.ndarray, threshold=1e-7, max_iterations=1000
 ) -> (float, np.ndarray):
     b = np.random.rand(matrix.shape[0])
     old_b = b + 1000 * threshold
