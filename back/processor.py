@@ -1,7 +1,7 @@
 import numpy as np
 
 
-def calculate_weights(matrix: list[list[float]]) -> list[float]:
+def calculate_weights(matrix: list[list[float]]) -> (float, list[float]):
     mat = np.array(matrix)
     u, vector = rayleigh_quotient_iteration(mat)
     if np.min(vector) < 0:
@@ -9,6 +9,15 @@ def calculate_weights(matrix: list[list[float]]) -> list[float]:
             raise ValueError("cannot compute matrix")
         vector *= -1
     return u, list(vector / np.sum(vector))
+
+
+def calculate_weights_np(matrix: np.ndarray) -> (float, np.ndarray):
+    u, vector = rayleigh_quotient_iteration(matrix)
+    if np.min(vector) < 0:
+        if np.max(vector) > 0:
+            raise ValueError("cannot compute matrix")
+        vector *= -1
+    return u, vector / np.sum(vector)
 
 
 def rayleigh_quotient_iteration(

@@ -10,5 +10,6 @@ def without_whitespace(text):
             return False
     return True
 
-def get_image(name):
+
+def get_image(name: str) -> str:
     return "./img/" + name + ".jpg"
