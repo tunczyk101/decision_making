@@ -18,6 +18,7 @@ def ranking(
     propositions: list[str],
     actual_criteria: list[int],
     criteria_matrix: np.ndarray,
+    method: str
 ):
     expert_responses_directory = "example_data/expert_responses"
     expert_responses = []
@@ -32,11 +33,11 @@ def ranking(
             continue
         propositions_matrices = np.array(data["matrix"])[actual_criteria, :, :]
         expert_responses.append(
-            fahp.make_propositions_criteria_rankings(propositions_matrices)
+            fahp.make_propositions_criteria_rankings(propositions_matrices, method)
         )
     if len(expert_responses) == 0:
         print("nie znaleziono plikow z odpowiedziami expertow")
         return
     propositions_rankings = fahp.aggregate_rankings(expert_responses)
-    criteria_ranking = fahp.make_criteria_ranking(criteria_matrix)
+    criteria_ranking = fahp.make_criteria_ranking(criteria_matrix, method)
     return fahp.make_final_ranking(propositions_rankings, criteria_ranking)

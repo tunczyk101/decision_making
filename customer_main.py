@@ -97,7 +97,6 @@ class RankCategoriesScreen(kivy.uix.screenmanager.Screen):
 
 class ChooseCategoriesScreen(kivy.uix.screenmanager.Screen):
     def add_items_to_list(self, criteria):
-
         for i, crit in enumerate(criteria):
             item = ListItemWithCheckbox(text=f"{crit}", icon="ice-cream", id=str(i))
             item.ids.checkbox.set_things(i)
@@ -112,11 +111,12 @@ class CustomerApp(MDApp):
         self.actual_criteria = []
         self.criteria = None
         self.propositions = None
+        self.method = "EVM"
 
     def on_start(self):
         self.theme_cls.primary_palette = "Pink"
         self.theme_cls.primary_hue = "500"
-        self.theme_cls.theme_style = "Dark"
+        # self.theme_cls.theme_style = "Dark"
         self.criteria, self.propositions = load()
         self.root.ids.choosecategories_screen.add_items_to_list(self.criteria)
 
@@ -142,6 +142,7 @@ class CustomerApp(MDApp):
             self.propositions,
             self.actual_criteria,
             self.cqs.criteria_matrix,
+            self.method
         )
         for i in final_indexes:
             self.root.ids.result_screen.ids.rv.data.append(
@@ -158,6 +159,11 @@ class CustomerApp(MDApp):
             self.actual_criteria.append(id)
         else:
             self.actual_criteria.remove(id)
+
+    def choose_metchod(self, id, value):
+        if value:
+            self.method = id
+            print(id)
 
     def save_categories(self):
         if len(self.actual_criteria) < 1:
