@@ -54,7 +54,6 @@ class PropositionQuestonsState:
             c = 1 / c
 
         self.propositions_matrices[q[0], q[1][1], q[1][0]] = c
-        print("expert")
 
     def generate_expert_questions(self):
         self.questions = ahp.generate_expert_questions(
@@ -64,7 +63,7 @@ class PropositionQuestonsState:
     def get_max_satty_index(self):
         return max(
             (
-                ahp.SAATY_index(self.propositions_matrices[i, :, :])
+                ahp.SAATY_index(self.propositions_matrices[i, :, :], "EVM")
                 for i in range(len(self.criteria))
             ),
             default=0,

@@ -1,3 +1,10 @@
+<Check@MDCheckbox>:
+    group: 'group'
+    size_hint: None, None
+    size: dp(48), dp(48)
+    thumb_color_down: (186, 186, 186, 0.8)
+
+
 <StartScreen>:
     FloatLayout:
         MDTopAppBar:
@@ -22,3 +29,37 @@
             pos_hint: {"center_x": .5, "center_y": .5}
             on_release: app.change_screen("choosecategories_screen", "up", "pop")
             text: "Start!"
+
+        MDLabel:
+            text: "EVM"
+            pos_hint: {"center_x": 0.3, "center_y": 0.25}
+            halign: "center"
+
+        Check:
+            id: first
+            active: True
+            pos_hint: {'center_x': .3, 'center_y': .2}
+            on_active: app.choose_metchod("EVM", self.active)
+
+
+        MDLabel:
+            text: "GMM"
+            pos_hint: {"center_x": 0.5, "center_y": 0.25}
+            halign: "center"
+
+        Check:
+            id: second
+            pos_hint: {'center_x': .5, 'center_y': .2}
+            on_active: app.choose_metchod("GMM", self.active)
+            unselected_color: (186, 186, 186, 0.8)
+
+        MDLabel:
+            text: "LLVM"
+            pos_hint: {"center_x": 0.7, "center_y": 0.25}
+            halign: "center"
+
+        Check:
+            id: third
+            pos_hint: {'center_x': .7, 'center_y': .2}
+            on_active: app.choose_metchod("LLVM", self.active)
+            unselected_color: (186, 186, 186, 0.8)
