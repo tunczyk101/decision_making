@@ -10,7 +10,6 @@ import back.ahp as ahp
 
 os.environ["SSL_CERT_FILE"] = certifi.where()
 
-
 Window.size = (375, 750)
 
 
@@ -31,6 +30,11 @@ class PropositionQuestonsState:
             return True
         return False
 
+    def last_question_check(self):
+        if self.curr_nr + 1 >= len(self.questions):
+            return True
+        return False
+
     def get_category(self):
         return self.criteria[self.questions[self.curr_nr][0]]
 
@@ -46,7 +50,11 @@ class PropositionQuestonsState:
         c = float(c)
         q = self.questions[self.curr_nr]
         self.propositions_matrices[q[0], q[1][0], q[1][1]] = c
-        self.propositions_matrices[q[0], q[1][1], q[1][0]] = 1 / c
+        if c != 0:
+            c = 1 / c
+
+        self.propositions_matrices[q[0], q[1][1], q[1][0]] = c
+        print("expert")
 
     def generate_expert_questions(self):
         self.questions = ahp.generate_expert_questions(
@@ -99,10 +107,14 @@ class AddExpertiseScreen(kivy.uix.screenmanager.Screen):
         s = str(self.v_left) + " : " + str(self.v_right)
         self.ids.compare_label.text = s
 
-    def next(self):
-        self.pqs.save_expert_value((self.v_left / self.v_right))
+    def next(self, skip):
+        if not skip:
+            self.pqs.save_expert_value((self.v_left / self.v_right))
+        else:
+            self.pqs.save_expert_value(0)
 
-        self.reset_values()
+        if not self.pqs.last_question_check():
+            self.reset_values()
 
     def save(self, expert_name, label, function):
         if without_whitespace(expert_name):
@@ -140,6 +152,13 @@ class ExpertApp(MDApp):
         # Get the screen manager from the kv_expert file.
         screen_manager = self.root.ids.screen_manager
 
+        if screen_name == "save_screen":
+            if not self.root.ids.add_expertise_screen.pqs.last_question_check():
+                return
+            self.root.ids.save_screen.ids.info_label.text = (
+                self.root.ids.add_expertise_screen.func()
+            )
+
         if direction == "None":
             screen_manager.transition = kivy.uix.screenmanager.NoTransition()
             screen_manager.current = screen_name
@@ -151,11 +170,6 @@ class ExpertApp(MDApp):
 
         if screen_name == "add_expertise_screen":
             self.root.ids.add_expertise_screen.reset_values()
-
-        if screen_name == "save_screen":
-            self.root.ids.save_screen.ids.info_label.text = (
-                self.root.ids.add_expertise_screen.func()
-            )
 
 
 if __name__ == "__main__":

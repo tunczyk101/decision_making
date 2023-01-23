@@ -70,8 +70,8 @@
         MDFlatButton:
             id: next_button
             text: "next"
-            on_release: app.root.ids.add_expertise_screen.next()
-            pos_hint: {"center_x": 0.5, "center_y": 0.25}
+            on_release: app.root.ids.add_expertise_screen.next(False)
+            pos_hint: {"center_x": 0.5, "center_y": 0.32}
             md_bg_color: app.theme_cls.primary_color
 
         MDFlatButton:
@@ -81,5 +81,16 @@
             opacity: 0
             text: "save"
             font_size: "22sp"
-            on_release: app.change_screen("save_screen", "None")
+            on_release: app.root.ids.add_expertise_screen.next(False), app.change_screen("save_screen", "None")
+            pos_hint: {"center_x": 0.5, "center_y": 0.32}
+
+        MDRectangleFlatButton:
+            # icon: "android"
+            text: "Skip"
+            theme_text_color: "Custom"
+            text_color: "white"
+            line_color: "red"
+            theme_icon_color: "Custom"
             pos_hint: {"center_x": 0.5, "center_y": 0.25}
+            on_release: app.root.ids.add_expertise_screen.next(True), app.change_screen("save_screen", "None")
+            # icon_color: "orange"
