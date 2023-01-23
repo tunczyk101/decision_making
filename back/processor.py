@@ -27,7 +27,8 @@ def evm_method(matrix: np.ndarray) -> (float, np.ndarray):
         if np.max(vector) > 0:
             raise ValueError("cannot compute matrix")
         vector *= -1
-    return u, vector / np.sum(vector)
+    n = matrix.shape[0]
+    return (u - n) / (n - 1), vector / np.sum(vector)
 
 
 def gmm_method(matrix: np.ndarray) -> (float, np.ndarray):

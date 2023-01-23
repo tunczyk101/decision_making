@@ -63,7 +63,7 @@ class PropositionQuestonsState:
     def get_max_satty_index(self):
         return max(
             (
-                ahp.SAATY_index(self.propositions_matrices[i, :, :], "EVM")
+                ahp.index(self.propositions_matrices[i, :, :], "EVM")
                 for i in range(len(self.criteria))
             ),
             default=0,

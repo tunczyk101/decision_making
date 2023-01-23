@@ -4,21 +4,21 @@ from random import shuffle
 from scipy.stats import gmean
 
 
-def EVM_ranking(M: np.ndarray, method) -> np.ndarray:
+def ranking(M: np.ndarray, method) -> np.ndarray:
     if M.size == 1:
         return np.array([1])
-    return calculate_weights_np(M)[1]
+    return calculate_weights_np(M, method)[1]
 
 
-def SAATY_index(M: np.ndarray, method) -> float:
+def index(M: np.ndarray, method) -> float:
     n = M.shape[0]
     if n == 1:
         return 0
-    return (calculate_weights_np(M)[0] - n) / (n - 1)
+    return calculate_weights_np(M, method)[0]
 
 
 def make_criteria_ranking(criteria_matrix: np.ndarray, method: str) -> np.ndarray:
-    return EVM_ranking(criteria_matrix, method)
+    return ranking(criteria_matrix, method)
 
 
 # propositions_matrices[criteria, proposition, proposition]
@@ -30,7 +30,7 @@ def make_propositions_criteria_rankings(
         (propositions_matrices.shape[0], propositions_matrices.shape[1]), dtype=float
     )
     for i in range(propositions_matrices.shape[0]):
-        propositions_rankings[i, :] = EVM_ranking(propositions_matrices[i, :, :], method)
+        propositions_rankings[i, :] = ranking(propositions_matrices[i, :, :], method)
     return propositions_rankings
 
 
