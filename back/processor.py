@@ -28,7 +28,8 @@ def evm_method(matrix: np.ndarray) -> (float, np.ndarray):
             raise ValueError("cannot compute matrix")
         vector *= -1
     n = matrix.shape[0]
-    return (u - n) / (n - 1), vector / np.sum(vector)
+    satty = (u - n) / (n - 1) if n > 1 else 0
+    return satty, vector / np.sum(vector)
 
 
 def gmm_method(matrix: np.ndarray) -> (float, np.ndarray):
@@ -41,7 +42,7 @@ def gmm_method(matrix: np.ndarray) -> (float, np.ndarray):
     e = matrix * ((1 / w).reshape((w.size, 1)) @ w.reshape((1, w.size)))
     n = matrix.shape[0]
     triu = np.square(np.log(e + (e == 0)))
-    ig = 2 / (n - 1) / (n - 2) * np.sum(np.triu(triu, 1))
+    ig = 2 / (n - 1) / (n - 2) * np.sum(np.triu(triu, 1)) if n > 2 else 0
     return ig, w / np.sum(w)
 
 
