@@ -4,12 +4,12 @@ from kivy.properties import StringProperty
 from kivymd.app import MDApp
 from kivymd.uix.list import (
     IRightBodyTouch,
-    OneLineAvatarIconListItem,
     OneLineIconListItem,
 )
 from kivymd.uix.selectioncontrol import MDCheckbox
 from kivy.core.window import Window
 from kivymd.uix.list import OneLineAvatarIconListItem
+
 
 from customer.customer_functions import load, ranking
 import back.ahp as ahp
@@ -116,7 +116,7 @@ class CustomerApp(MDApp):
     def on_start(self):
         self.theme_cls.primary_palette = "Pink"
         self.theme_cls.primary_hue = "500"
-        # self.theme_cls.theme_style = "Dark"
+        self.theme_cls.theme_style = "Dark"
         self.criteria, self.propositions = load()
         self.root.ids.choosecategories_screen.add_items_to_list(self.criteria)
 
@@ -163,7 +163,6 @@ class CustomerApp(MDApp):
     def choose_metchod(self, id, value):
         if value:
             self.method = id
-            print(id)
 
     def save_categories(self):
         if len(self.actual_criteria) < 1:
